@@ -17,7 +17,6 @@ class Game {
     this.audio.volume = 0.05;
     this.audio.loop = true;
 
-    this.drawCount = 0;
     this.calculateRandomCoinTarget();
     this.calculateRandomEnemyTarget();
   }
@@ -74,9 +73,10 @@ class Game {
   }
 
   addCoin() {
-    if (this.drawCount >= this.randomCoinTarget) {
-      this.drawCount = 0;
+    this.randomCoinTarget--;
 
+    if (this.randomCoinTarget <= 0) {
+      console.log(this.drawCount, this.randomCoinTarget);
       this.calculateRandomCoinTarget();
 
       const newCoin = new Coin(this.ctx);
@@ -86,7 +86,9 @@ class Game {
   }
 
   addEnemy() {
-    if (this.drawCount >= this.randomEnemyTarget) {
+    this.randomEnemyTarget--;
+
+    if (this.randomEnemyTarget <= 0) {
       this.drawCount = 0;
 
       this.calculateRandomEnemyTarget();
@@ -118,12 +120,6 @@ class Game {
   }
 
   draw() {
-    this.drawCount++;
-    // limit drawCount to avoid infinity
-    if (this.drawCount > 1_000_000) {
-      this.drawCount = 0;
-    }
-
     // draw everything
     this.bg.draw();
     this.player.draw();
