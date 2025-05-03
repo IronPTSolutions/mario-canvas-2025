@@ -133,4 +133,24 @@ class Player {
         break;
     }
   }
+
+  collidesCoin(c) {
+    // colX = lado izquierdo moneda <= lado derecho mario y lado derecho moneda >= lado izquierod mario
+    const colX = c.x - c.r <= this.x + this.w && c.x + c.r >= this.x;
+
+    // colY = lado inferior moneda >= lado superior mario y lado superior moneda <= lado inferior mario
+    const colY = c.y + c.r >= this.y && c.y - c.r <= this.y + this.h;
+
+    return colX && colY;
+  }
+
+  collidesEnemy(e) {
+    const padding = 20;
+
+    const colX =
+      e.x <= this.x + this.w - padding && e.x + e.w >= this.x + padding;
+    const colY = e.y + e.h >= this.y && e.y <= this.y + this.h - padding;
+
+    return colX && colY;
+  }
 }
